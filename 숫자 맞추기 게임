@@ -1,0 +1,26 @@
+Random ran = new Random();
+
+int num = ran.Next(1, 101);
+
+string ranNum = num.ToString();
+string inputNum;
+bool check = false;
+
+while (!check)
+{
+    Console.Write("Enter your guess (1-100) : ");
+    inputNum = Console.ReadLine();
+    if(inputNum!="0" && int.Parse(inputNum)>num)
+    {
+        Console.WriteLine("Too High! Try again.");
+    }
+    else if(inputNum!="0" && int.Parse(inputNum) < num)
+    {
+        Console.WriteLine("Too Low! Try again.");
+    }
+    else if(int.Parse(inputNum) == num)
+    {
+        Console.WriteLine("Congratulations! You guessed the number.");
+        check = true;
+    }
+}
