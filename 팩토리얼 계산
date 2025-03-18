@@ -1,0 +1,11 @@
+string num;
+Console.Write("Enter a number : ");
+num = Console.ReadLine();
+int result = 1;
+int n = int.Parse( num );
+while (n > 0)
+{
+    result *= n;
+    n--;
+}
+Console.WriteLine($"Factorial of {num} is {result}");
