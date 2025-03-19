@@ -1,0 +1,53 @@
+int[] targetNumber = new int[3];
+int[] userGuess = new int[3];
+int strikes=0;
+int balls=0;
+int attempts = 0;
+bool guessedCorrectly = false;
+
+
+for(int i=0;i<targetNumber.Length; i++)
+{
+    Random ran = new Random();
+    targetNumber[i] = ran.Next(0,10);
+}
+
+while (!guessedCorrectly)
+{
+    attempts++;
+    Console.Write($">>>>>>>>>>>>>Attempts :[{attempts}]\nEnter your guess (3 diigt) : ");
+    string guessInt = Console.ReadLine();
+    for (int i = 0; i < 3; i++)
+    {
+        userGuess[i] = guessInt[i] - '0';
+    }
+
+    for (int i=0;i<3; i++)
+    {
+        for(int j=0; j<3; j++)
+        {
+            if (userGuess[j] == targetNumber[i])
+            {
+                balls++;
+                break;
+            }
+        }
+    }
+    for (int i = 0; i < 3; i++)
+    {
+        if (userGuess[i] == targetNumber[i])
+        {
+                strikes++;
+        }
+    }
+    Console.WriteLine($"{strikes} Strikes(s), {balls} Ball(s)");
+    if(strikes == 3)
+    {
+        Console.WriteLine($"Congratulations! You've guessed the number in {attempts} attempts.");
+        guessedCorrectly=true;
+    }
+    else
+    {
+        balls = 0; strikes = 0;
+    }
+}
