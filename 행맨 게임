@@ -1,0 +1,70 @@
+string secretWord="";
+char[] guessWord;
+int attempts = 6;
+bool wordGuessed = false;
+
+char alpha;
+int intAlpha = 0;
+
+Console.Write("SecretWord를 입력하세요 : ");
+secretWord = Console.ReadLine();
+guessWord = new char[secretWord.Length];
+
+for(int i=0; i<secretWord.Length; i++)
+{
+    guessWord[i] = '_';
+}
+while (!wordGuessed)
+{
+    Console.Write("GuessWord <<< ");
+    for(int i = 0; i < guessWord.Length; i++) { Console.Write(guessWord[i]); }
+    Console.WriteLine($" >>>    남은기회 : [{attempts}]");
+
+    bool inputCheck = false;
+    while (!inputCheck) { 
+        Console.Write("알파벳 입력 : ");
+        alpha = Console.ReadLine()[0];
+
+        intAlpha = alpha;
+
+        if (intAlpha >= 65 && intAlpha <= 90) {
+            intAlpha += 32;
+            inputCheck = true;
+        }
+        else if (intAlpha >= 97 && intAlpha <= 122) { 
+            inputCheck = true;
+        }
+        else
+        {
+            Console.WriteLine("영문 알파벳이 아닙니다. 다시 입력하여주세요.");
+        }
+    }
+    
+    for(int i=0; i<secretWord.Length; i++)
+    {
+        int checkAlpha = secretWord[i];
+
+        if (checkAlpha >= 65 && checkAlpha <= 90)
+        {
+            checkAlpha += 32;
+        }
+    
+        if (checkAlpha == intAlpha) { guessWord[i] = secretWord[i]; }
+    }
+
+    string checkStr = "";
+    for(int i=0; i<guessWord.Length; i++)
+    {
+        checkStr +=guessWord[i];
+    }
+    if(checkStr.CompareTo(secretWord) == 0)
+    {
+        Console.WriteLine($">>축하합니다! 정답입니다 \t정답 : [{secretWord}]");
+        wordGuessed = true;
+    }
+    else
+    {
+        if (attempts <= 0) { Console.WriteLine(">>기회를 모두 소진하였습니다 << GAME OVER >>"); wordGuessed = true; }
+        else { attempts -= 1; }
+    }
+}
