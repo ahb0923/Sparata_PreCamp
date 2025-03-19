@@ -1,0 +1,13 @@
+int[] numbers = { 10, 20, 30, 40, 50 };
+int maxNum = numbers[0];
+int minNum = numbers[0];
+
+
+for(int i=1; i<numbers.Length; i++)
+{
+    if (maxNum < numbers[i]) { maxNum = numbers[i];}
+    if (minNum > numbers[i]) { minNum = numbers[i];}
+}
+
+Console.WriteLine($"Max: {maxNum}");
+Console.WriteLine($"Min: {minNum}");
