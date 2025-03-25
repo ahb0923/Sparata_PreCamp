@@ -1,0 +1,207 @@
+int handCard = 7;
+Random rand = new Random();
+bool check = true;
+int num = 0;
+int turn = 1;
+int index1 = 0;
+int index2 = 0;
+bool playerCheck = true;    // true = 플레이어1 / false = 플레이어2
+
+int[] player1 = new int[handCard];
+int[] player2 = new int[handCard];
+for (int i = 0; i < player1.Length; i++)
+{
+    bool numCheck = true;
+    int temp = 0;
+
+    while (numCheck)
+    {
+        temp = rand.Next(1, 16);
+        if (!Array.Exists(player1, x => x == temp))
+        {
+            player1[i] = temp;
+            numCheck = false;
+        }
+    }
+}
+for (int i = 0; i < player2.Length; i++)
+{
+    bool numCheck = true;
+    int temp = 0;
+
+    while (numCheck)
+    {
+        temp = rand.Next(1, 16);
+        if (!Array.Exists(player2, x => x == temp))
+        {
+            player2[i] = temp;
+            numCheck = false;
+        }
+    }
+}
+
+
+while (check)
+{
+    if (turn % 2 == 0) { playerCheck = false; }
+    else { playerCheck = true; }
+
+
+    if (playerCheck) { Console.Write("Player1의"); }
+    else { Console.Write("Player2의"); }
+    Console.WriteLine($" 턴 : {turn}\n");
+
+    Array.Sort(player1);
+    Array.Sort(player2);
+
+    showCard(player1, true);
+    showCard(player2, false);
+
+
+    Console.WriteLine();
+
+    bool cardCheck = false; 
+
+    // 사용 카드 선택
+    while (!cardCheck)
+    {
+        
+        if (turn % 2 == 0) { Console.Write("\nPlayer2가 "); }
+        else { Console.Write("Player1이 "); }
+        Console.Write("사용할 카드를 입력하세요 : ");
+        num = int.Parse(Console.ReadLine());
+
+        if (playerCheck)
+        {
+            var index = Array.FindIndex(player1, x => x == num);
+            if (index != -1)
+            {
+                Console.WriteLine($"{player1[index]} 카드를 사용하였습니다.\n");
+                player1[index] = 0;
+                cardCheck = true;
+            }
+            else
+            {
+                Console.WriteLine("존재하지 않는 카드입니다.\n");
+            }
+        }
+        else
+        {
+            var index = Array.FindIndex(player2, x => x == num);
+            if (index != -1)
+            {
+                Console.WriteLine($"{player2[index]} 카드를 사용하였습니다.\n");
+                player2[index] = 0;
+                cardCheck = true;
+            }
+            else
+            {
+                Console.WriteLine("존재하지 않는 카드입니다.\n");
+            }
+
+        }
+    }
+
+    // 보존 카드 선택
+    string keepStr="";
+    if (playerCheck)
+    {
+        showCard(player1, playerCheck);
+        Console.Write("킵할 카드를 최대 3장 선택하세요.(띄어 쓰기로 입력)\n=> ");
+        keepStr = Console.ReadLine();
+        string[] keepCards = keepStr.Split(' ');
+        index1 = keepCards.Length;
+        for(int i=0; i<keepCards.Length; i++)
+        {
+            player1[i] = int.Parse(keepCards[i]);
+        }
+        Console.Write("보관된 카드 [ ");
+        for (int i = 0; i < keepCards.Length; i++)
+        {
+            Console.Write(player1[i] + " ");
+        }
+        Console.WriteLine("]");
+    }
+    else
+    {
+        showCard(player2, playerCheck);
+        Console.Write("킵할 카드를 최대 3장 선택하세요.(띄어 쓰기로 입력)\n=> ");
+        keepStr = Console.ReadLine();
+        string[] keepCards = keepStr.Split(' ');
+        index2 = keepCards.Length;
+        for (int i = 0; i < keepCards.Length; i++)
+        {
+            player2[i] = int.Parse(keepCards[i]);
+        }
+        Console.Write("보관된 카드 [ ");
+        for (int i = 0; i < keepCards.Length; i++)
+        {
+            Console.Write(player2[i] + " ");
+        }
+        Console.WriteLine("]");
+    }
+
+    // 카드 리프레쉬 
+    if (playerCheck)
+    {
+        for (int i = index1; i < player1.Length; i++)
+        {
+            bool numCheck = true;
+            int temp = 0;
+
+            while (numCheck)
+            {
+                temp = rand.Next(1, 16);
+                if (!Array.Exists(player1, x => x == temp))
+                {
+                    player1[i] = temp;
+                    numCheck = false;
+                }
+            }
+        }
+    }
+    else
+    {
+        for (int i = index2; i < player2.Length; i++)
+        {
+            bool numCheck = true;
+            int temp = 0;
+
+            while (numCheck)
+            {
+                temp = rand.Next(1, 16);
+                if (!Array.Exists(player2, x => x == temp))
+                {
+                    player2[i] = temp;
+                    numCheck = false;
+                }
+            }
+        }
+    }
+
+
+    Console.WriteLine("===================================================================\n");
+    turn++;
+}
+
+static void showCard(int[] a, bool turn1)
+{
+    if (turn1)
+    {
+        Console.WriteLine(">>Player1");
+        for (int i = 0; i < a.Length; i++)
+        {
+            Console.Write("[" + a[i] + "]\t");
+        }
+        Console.WriteLine();
+    }
+    else
+    {
+        Console.WriteLine(">>Player2");
+        for (int i = 0; i < a.Length; i++)
+        {
+            Console.Write("[" + a[i] + "]\t");
+        }
+        Console.WriteLine();
+    }
+}
